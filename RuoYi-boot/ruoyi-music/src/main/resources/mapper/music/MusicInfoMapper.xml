@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.music.mapper.MusicInfoMapper">
+    
+    <resultMap type="MusicInfo" id="MusicInfoResult">
+        <result property="id"    column="id"    />
+        <result property="musicAddress"    column="music_address"    />
+        <result property="lyricAddress"    column="lyric_address"    />
+        <result property="musicCover"    column="music_cover"    />
+        <result property="musicAuthor"    column="music_author"    />
+        <result property="musicTitle"    column="music_title"    />
+    </resultMap>
+
+    <sql id="selectMusicInfoVo">
+        select id, music_address, lyric_address, music_cover, music_author, music_title from music_info
+    </sql>
+
+    <select id="selectMusicInfoList" parameterType="MusicInfo" resultMap="MusicInfoResult">
+        <include refid="selectMusicInfoVo"/>
+        <where>  
+            <if test="musicAddress != null  and musicAddress != ''"> and music_address = #{musicAddress}</if>
+            <if test="lyricAddress != null  and lyricAddress != ''"> and lyric_address = #{lyricAddress}</if>
+            <if test="musicCover != null  and musicCover != ''"> and music_cover = #{musicCover}</if>
+            <if test="musicAuthor != null  and musicAuthor != ''"> and music_author = #{musicAuthor}</if>
+            <if test="musicTitle != null  and musicTitle != ''"> and music_title = #{musicTitle}</if>
+        </where>
+    </select>
+    
+    <select id="selectMusicInfoById" parameterType="Long" resultMap="MusicInfoResult">
+        <include refid="selectMusicInfoVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertMusicInfo" parameterType="MusicInfo">
+        insert into music_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="musicAddress != null">music_address,</if>
+            <if test="lyricAddress != null">lyric_address,</if>
+            <if test="musicCover != null">music_cover,</if>
+            <if test="musicAuthor != null">music_author,</if>
+            <if test="musicTitle != null">music_title,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="musicAddress != null">#{musicAddress},</if>
+            <if test="lyricAddress != null">#{lyricAddress},</if>
+            <if test="musicCover != null">#{musicCover},</if>
+            <if test="musicAuthor != null">#{musicAuthor},</if>
+            <if test="musicTitle != null">#{musicTitle},</if>
+         </trim>
+    </insert>
+
+    <update id="updateMusicInfo" parameterType="MusicInfo">
+        update music_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="musicAddress != null">music_address = #{musicAddress},</if>
+            <if test="lyricAddress != null">lyric_address = #{lyricAddress},</if>
+            <if test="musicCover != null">music_cover = #{musicCover},</if>
+            <if test="musicAuthor != null">music_author = #{musicAuthor},</if>
+            <if test="musicTitle != null">music_title = #{musicTitle},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteMusicInfoById" parameterType="Long">
+        delete from music_info where id = #{id}
+    </delete>
+
+    <delete id="deleteMusicInfoByIds" parameterType="String">
+        delete from music_info where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

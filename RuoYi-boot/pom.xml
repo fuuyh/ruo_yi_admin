@@ -162,6 +162,13 @@
                 <version>${ruoyi.version}</version>
             </dependency>
 
+            <!-- 音乐管理模块 -->
+            <dependency>
+                <groupId>com.ruoyi</groupId>
+                <artifactId>ruoyi-music</artifactId>
+                <version>${ruoyi.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
@@ -172,6 +179,7 @@
         <module>ruoyi-quartz</module>
         <module>ruoyi-generator</module>
         <module>ruoyi-common</module>
+        <module>ruoyi-music</module>
     </modules>
     <packaging>pom</packaging>
 
