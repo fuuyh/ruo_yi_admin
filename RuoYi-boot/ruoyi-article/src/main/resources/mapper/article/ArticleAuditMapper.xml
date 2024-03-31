@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.article.mapper.ArticleAuditMapper">
+    
+    <resultMap type="ArticleAudit" id="ArticleAuditResult">
+        <result property="id"    column="id"    />
+        <result property="articleId"    column="article_id"    />
+        <result property="status"    column="status"    />
+        <result property="rejectCause"    column="reject_cause"    />
+        <result property="userId"    column="user_id"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectArticleAuditVo">
+        select id, article_id, status, reject_cause, user_id, update_time from article_audit
+    </sql>
+
+    <select id="selectArticleAuditList" parameterType="ArticleAudit" resultMap="ArticleAuditResult">
+        <include refid="selectArticleAuditVo"/>
+        <where>  
+            <if test="articleId != null "> and article_id = #{articleId}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="rejectCause != null  and rejectCause != ''"> and reject_cause = #{rejectCause}</if>
+            <if test="userId != null "> and user_id = #{userId}</if>
+        </where>
+    </select>
+    
+    <select id="selectArticleAuditById" parameterType="Long" resultMap="ArticleAuditResult">
+        <include refid="selectArticleAuditVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertArticleAudit" parameterType="ArticleAudit" useGeneratedKeys="true" keyProperty="id">
+        insert into article_audit
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="articleId != null">article_id,</if>
+            <if test="status != null">status,</if>
+            <if test="rejectCause != null">reject_cause,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="articleId != null">#{articleId},</if>
+            <if test="status != null">#{status},</if>
+            <if test="rejectCause != null">#{rejectCause},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateArticleAudit" parameterType="ArticleAudit">
+        update article_audit
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="articleId != null">article_id = #{articleId},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="rejectCause != null">reject_cause = #{rejectCause},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteArticleAuditById" parameterType="Long">
+        delete from article_audit where id = #{id}
+    </delete>
+
+    <delete id="deleteArticleAuditByIds" parameterType="String">
+        delete from article_audit where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

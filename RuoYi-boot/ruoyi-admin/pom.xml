@@ -61,6 +61,18 @@
             <artifactId>ruoyi-generator</artifactId>
         </dependency>
 
+        <!-- 音频管理-->
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>ruoyi-music</artifactId>
+        </dependency>
+
+        <!-- 文章管理-->
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>ruoyi-article</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>
