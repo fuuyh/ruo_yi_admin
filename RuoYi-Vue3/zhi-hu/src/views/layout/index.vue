@@ -36,6 +36,7 @@ const isLoading = ref(false)
 <style scoped lang="scss">
 main {
   min-height: 80vh;
+  width: 100%;
 }
 
 /*

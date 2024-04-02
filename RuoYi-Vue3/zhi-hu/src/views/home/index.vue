@@ -19,7 +19,7 @@
             <img src="http://vue-maker.oss-cn-hangzhou.aliyuncs.com/vue-marker/5f3e41a8b7d9c60b68cdd1ec.jpg?x-oss-process=image/resize,m_pad,h_50,w_50" alt="铺先生" class="rounded-circle border border-light my-3">
             <h5 class="card-title text-truncate">铺先生</h5>
             <p class="card-text text-left description text-secondary">酒店售货机，酒店经营，共享经济，新零售，共享数据线，关注灵趣科技，了解更多</p>
-            <a href="#" class="btn btn-outline-primary">进入专栏</a>
+            <a href="/column" class="btn btn-outline-primary">进入专栏</a>
           </div>
         </div>
       </div>
