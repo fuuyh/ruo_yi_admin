@@ -11,7 +11,7 @@
         <p class="text-muted">半吊子系统和程序狗，沉迷高端理论，日渐消瘦。</p>
       </div>
     </div>
-    <postList :list="list" />
+    <!-- <postList :list="list" /> -->
     <button class="btn btn-outline-primary mt-2 mb-5 mx-auto btn-block w-25 d-block" @click="loadMorePage"
       v-if="!isLastPage">
       加载更多
@@ -21,21 +21,21 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import postList from '../../components/postList.vue';
+// import postList from '../../components/postList.vue';
 
-const list = ref([
-  {
-    _id: 1,
-    title: 'Vehicle攻城狮',
-    excerpt: '半吊子系统和程序狗，沉迷高端理论，日渐消瘦。',
-    image: '',
-    content: '半吊子系统和程序狗，沉迷高端理论，日渐消瘦。',
-    createAt: '2022-01-01',
-    author: 'Vehicle',
-    column: 'Vehicle',
-    isHTML: false,
-  },
-]);
+// const list = ref([
+//   {
+//     _id: 1,
+//     title: 'Vehicle攻城狮',
+//     excerpt: '半吊子系统和程序狗，沉迷高端理论，日渐消瘦。',
+//     image: '',
+//     content: '半吊子系统和程序狗，沉迷高端理论，日渐消瘦。',
+//     createAt: '2022-01-01',
+//     author: 'Vehicle',
+//     column: 'Vehicle',
+//     isHTML: false,
+//   },
+// ]);
 const isLastPage = ref(false);  // 是否是最后一页
 const loadMorePage = () => {
   // 加载更多

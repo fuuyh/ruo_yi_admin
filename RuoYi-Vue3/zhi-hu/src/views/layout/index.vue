@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 import globalHeader from '../../components/globalHeader.vue';
 import loader from '../../components/Loader.vue';
-const isLoading = ref(false)
+const isLoading = ref(true)
 </script>
 
 <template>
