@@ -1,6 +1,7 @@
 package com.ruoyi.common.core.domain.model;
 
 import com.alibaba.fastjson2.annotation.JSONField;
+import com.ruoyi.common.core.domain.entity.CustomerUser;
 import com.ruoyi.common.core.domain.entity.SysUser;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -71,8 +72,15 @@ public class LoginUser implements UserDetails
      */
     private SysUser user;
 
-    public LoginUser()
+    /**
+     *  前台用户信息
+     * */
+    private CustomerUser customerUser;
+
+    public LoginUser(Long userId, CustomerUser member)
     {
+        this.userId = userId;
+        this.customerUser = member;
     }
 
     public LoginUser(SysUser user, Set<String> permissions)
@@ -88,6 +96,7 @@ public class LoginUser implements UserDetails
         this.user = user;
         this.permissions = permissions;
     }
+
 
     public Long getUserId()
     {
@@ -129,8 +138,14 @@ public class LoginUser implements UserDetails
     @Override
     public String getUsername()
     {
-        return user.getUserName();
+        if (user != null) {
+            return user.getUserName();
+        } else {
+            return customerUser.getUserName();
+        }
     }
+
+    public CustomerUser getCustomerUser() { return customerUser; }
 
     /**
      * 账户是否未过期,过期无法验证
@@ -181,6 +196,11 @@ public class LoginUser implements UserDetails
     public Long getLoginTime()
     {
         return loginTime;
+    }
+
+    public void setCustomerUser(CustomerUser customerUser) {
+        this.customerUser = customerUser;
+
     }
 
     public void setLoginTime(Long loginTime)

@@ -1,9 +1,14 @@
 package com.ruoyi.framework.config;
 
+import com.ruoyi.system.service.ICustomerDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.ProviderManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -12,6 +17,7 @@ import org.springframework.security.config.annotation.web.configurers.Expression
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.web.filter.CorsFilter;
@@ -31,6 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     /**
      * 自定义用户认证逻辑
      */
+    @Qualifier("UserDetailsServiceImpl")
     @Autowired
     private UserDetailsService userDetailsService;
     
@@ -64,6 +71,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     @Autowired
     private PermitAllUrlProperties permitAllUrl;
 
+
+    @Autowired
+    @Qualifier("CustomerDetailsServiceImpl")
+    private UserDetailsService customerDetailsService;
+
     /**
      * 解决 无法直接注入 AuthenticationManager
      *
@@ -72,9 +84,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
      */
     @Bean
     @Override
+    @Primary
     public AuthenticationManager authenticationManagerBean() throws Exception
     {
         return super.authenticationManagerBean();
+    }
+
+    @Bean("CustomerDetailsManagerBean")
+    public AuthenticationManager CustomerDetailsManagerBean() throws Exception
+    {
+        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+        authenticationProvider.setUserDetailsService(customerDetailsService);
+        authenticationProvider.setPasswordEncoder(NoOpPasswordEncoder.getInstance());
+        return new ProviderManager(authenticationProvider);
     }
 
     /**
