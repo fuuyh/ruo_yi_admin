@@ -121,9 +121,9 @@
         <el-form-item label="驳回原因" prop="rejectCause">
           <el-input v-model="form.rejectCause" placeholder="请输入驳回原因" />
         </el-form-item>
-        <el-form-item label="操作人id" prop="userId">
+        <!-- <el-form-item label="操作人id" prop="userId">
           <el-input v-model="form.userId" placeholder="请输入操作人id" />
-        </el-form-item>
+        </el-form-item> -->
       </el-form>
       <template #footer>
         <div class="dialog-footer">
