@@ -10,6 +10,7 @@ const user = {
   state: {
     token: getToken(),
     name: storage.get(constant.name),
+	nickName: storage.get(constant.nickName),
     avatar: storage.get(constant.avatar),
     roles: storage.get(constant.roles),
     permissions: storage.get(constant.permissions)
@@ -23,6 +24,10 @@ const user = {
       state.name = name
       storage.set(constant.name, name)
     },
+	SET_NICK_NAME: (state, nickName) => {
+		state.nickName = nickName
+		storage.set(constant.nickName, nickName)
+	},
     SET_AVATAR: (state, avatar) => {
       state.avatar = avatar
       storage.set(constant.avatar, avatar)
@@ -62,6 +67,7 @@ const user = {
           const user = res.user
           const avatar = (user == null || user.avatar == "" || user.avatar == null) ? require("@/static/images/profile.jpg") : baseUrl + user.avatar
           const username = (user == null || user.userName == "" || user.userName == null) ? "" : user.userName
+          const nickName = (user == null || user.nickName == "" || user.nickName == null) ? "" : user.nickName
           if (res.roles && res.roles.length > 0) {
             commit('SET_ROLES', res.roles)
             commit('SET_PERMISSIONS', res.permissions)
@@ -69,6 +75,7 @@ const user = {
             commit('SET_ROLES', ['ROLE_DEFAULT'])
           }
           commit('SET_NAME', username)
+          commit('SET_NICK_NAME', nickName)
           commit('SET_AVATAR', avatar)
           resolve(res)
         }).catch(error => {

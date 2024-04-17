@@ -9,12 +9,12 @@
           </view>
           <image v-if="avatar" @click="handleToAvatar" :src="avatar" class="cu-avatar xl round" mode="widthFix">
           </image>
-          <view v-if="!name" @click="handleToLogin" class="login-tip">
+          <view v-if="!nickName" @click="handleToLogin" class="login-tip">
             点击登录
           </view>
-          <view v-if="name" @click="handleToInfo" class="user-info">
+          <view v-if="nickName" @click="handleToInfo" class="user-info">
             <view class="u_title">
-              用户名：{{ name }}
+              Hi：{{ nickName }} !
             </view>
           </view>
         </view>
@@ -82,7 +82,7 @@
   export default {
     data() {
       return {
-        name: this.$store.state.user.name,
+        nickName: this.$store.state.user.nickName,
         version: getApp().globalData.config.appInfo.version
       }
     },
@@ -133,7 +133,7 @@
   }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   page {
     background-color: #f5f6f7;
   }
