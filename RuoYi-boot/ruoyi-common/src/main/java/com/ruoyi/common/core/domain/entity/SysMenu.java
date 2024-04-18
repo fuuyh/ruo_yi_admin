@@ -36,6 +36,9 @@ public class SysMenu extends BaseEntity
     /** 路由地址 */
     private String path;
 
+    /** app组件地址 */
+    private String appPath;
+
     /** 组件路径 */
     private String component;
 
@@ -53,6 +56,9 @@ public class SysMenu extends BaseEntity
 
     /** 显示状态（0显示 1隐藏） */
     private String visible;
+
+    /** APP菜单显示状态（0显示 1隐藏） */
+    private String appVisible;
     
     /** 菜单状态（0正常 1停用） */
     private String status;
@@ -62,6 +68,9 @@ public class SysMenu extends BaseEntity
 
     /** 菜单图标 */
     private String icon;
+
+    /** App菜单图标 */
+    private String appIcon;
 
     /** 子菜单 */
     private List<SysMenu> children = new ArrayList<SysMenu>();
@@ -130,6 +139,17 @@ public class SysMenu extends BaseEntity
         this.path = path;
     }
 
+    @Size(min = 0, max = 200, message = "app组件地址不能超过200个字符")
+    public String getAppPath()
+    {
+        return appPath;
+    }
+
+    public void setAppPath(String appPath)
+    {
+        this.appPath = appPath;
+    }
+
     @Size(min = 0, max = 200, message = "组件路径不能超过255个字符")
     public String getComponent()
     {
@@ -192,6 +212,10 @@ public class SysMenu extends BaseEntity
         this.visible = visible;
     }
 
+    public String getAppVisible() { return appVisible; }
+
+    public void setAppVisible(String appVisible) { this.appVisible = appVisible; }
+
     public String getStatus()
     {
         return status;
@@ -223,6 +247,16 @@ public class SysMenu extends BaseEntity
         this.icon = icon;
     }
 
+    public String getAppIcon()
+    {
+        return appIcon;
+    }
+
+    public void setAppIcon(String appIcon)
+    {
+        this.appIcon = appIcon;
+    }
+
     public List<SysMenu> getChildren()
     {
         return children;
@@ -241,14 +275,17 @@ public class SysMenu extends BaseEntity
             .append("parentId", getParentId())
             .append("orderNum", getOrderNum())
             .append("path", getPath())
+            .append("appPath", getAppPath())
             .append("component", getComponent())
             .append("isFrame", getIsFrame())
             .append("IsCache", getIsCache())
             .append("menuType", getMenuType())
             .append("visible", getVisible())
+            .append("appVisible",getAppVisible())
             .append("status ", getStatus())
             .append("perms", getPerms())
             .append("icon", getIcon())
+            .append("appIcon", getAppIcon())
             .append("createBy", getCreateBy())
             .append("createTime", getCreateTime())
             .append("updateBy", getUpdateBy())

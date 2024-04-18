@@ -9,7 +9,7 @@ ruoyi:
   # 文件路径 示例（ Windows配置D:/ruoyi/uploadPath，Linux配置 /home/ruoyi/uploadPath）
   profile: D:/myDocument/ruoyi/uploadPath
   # 服务器部署打开
-  #profile: /usr/local/ruoyi/uploadPath
+#  profile: /usr/local/ruoyi/uploadPath
   # 获取ip地址开关
   addressEnabled: false
   # 验证码类型 math 数字计算 char 字符验证

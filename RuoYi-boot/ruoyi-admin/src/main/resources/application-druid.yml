@@ -10,7 +10,7 @@ spring:
                 username: root
                 password: 123456
                 # 服务器部署打开 并修改密码
-                #password: MySql198
+#                password: MySql198
             # 从库数据源
             slave:
                 # 从数据源开关/默认关闭

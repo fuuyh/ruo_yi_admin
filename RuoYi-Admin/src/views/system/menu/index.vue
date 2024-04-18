@@ -88,6 +88,16 @@
          <el-form ref="menuRef" :model="form" :rules="rules" label-width="100px">
             <el-row>
                <el-col :span="24">
+                  <el-form-item label="配置类型">
+                     <el-radio-group v-model="settingType">
+                        <el-radio label="Pc">PC端</el-radio>
+                        <el-radio label="App">App端</el-radio>
+                     </el-radio-group>
+                  </el-form-item>
+               </el-col>
+
+
+               <el-col :span="24">
                   <el-form-item label="上级菜单">
                      <el-tree-select
                         v-model="form.parentId"
@@ -108,7 +118,7 @@
                      </el-radio-group>
                   </el-form-item>
                </el-col>
-               <el-col :span="24" v-if="form.menuType != 'F'">
+               <el-col :span="24" v-if="form.menuType != 'F' && settingType != 'App'">
                   <el-form-item label="菜单图标" prop="icon">
                      <el-popover
                         placement="bottom-start"
@@ -129,6 +139,30 @@
                            </el-input>
                         </template>
                         <icon-select ref="iconSelectRef" @selected="selected" :active-icon="form.icon" />
+                     </el-popover>
+                  </el-form-item>
+               </el-col>
+               <el-col :span="24" v-if="settingType == 'App'">
+                  <el-form-item label="菜单图标" prop="appIcon">
+                     <el-popover
+                        placement="bottom-start"
+                        :width="540"
+                        trigger="click"
+                     >
+                        <template #reference>
+                           <el-input v-model="form.appIcon" placeholder="点击选择App图标" @blur="showSelectIcon" readonly>
+                              <template #prefix>
+                                 <svg-icon
+                                    v-if="form.appIcon"
+                                    :icon-class="form.appIcon"
+                                    class="el-input__icon"
+                                    style="height: 32px;width: 16px;"
+                                 />
+                                 <el-icon v-else style="height: 32px;width: 16px;"><search /></el-icon>
+                              </template>
+                           </el-input>
+                        </template>
+                        <icon-select ref="iconSelectRef" @selected="selectedApp" :active-icon="form.appIcon" />
                      </el-popover>
                   </el-form-item>
                </el-col>
@@ -157,7 +191,7 @@
                      </el-radio-group>
                   </el-form-item>
                </el-col>
-               <el-col :span="12" v-if="form.menuType != 'F'">
+               <el-col :span="12" v-if="form.menuType != 'F' && settingType != 'App'">
                   <el-form-item prop="path">
                      <template #label>
                         <span>
@@ -168,6 +202,19 @@
                         </span>
                      </template>
                      <el-input v-model="form.path" placeholder="请输入路由地址" />
+                  </el-form-item>
+               </el-col>
+               <el-col :span="12" v-if="settingType == 'App'">
+                  <el-form-item prop="appPath">
+                     <template #label>
+                        <span>
+                           <el-tooltip content="访问的App组件地址，如：`/pages/mine/info/edit`，如外网地址需内链访问则以`http(s)://`开头" placement="top">
+                              <el-icon><question-filled /></el-icon>
+                           </el-tooltip>
+                           路由地址
+                        </span>
+                     </template>
+                     <el-input v-model="form.appPath" placeholder="请输入App组件地址" />
                   </el-form-item>
                </el-col>
                <el-col :span="12" v-if="form.menuType == 'C'">
@@ -225,7 +272,7 @@
                      </el-radio-group>
                   </el-form-item>
                </el-col>
-               <el-col :span="12" v-if="form.menuType != 'F'">
+               <el-col :span="12" v-if="form.menuType != 'F' && settingType != 'App'">
                   <el-form-item>
                      <template #label>
                         <span>
@@ -236,6 +283,25 @@
                         </span>
                      </template>
                      <el-radio-group v-model="form.visible">
+                        <el-radio
+                           v-for="dict in sys_show_hide"
+                           :key="dict.value"
+                           :label="dict.value"
+                        >{{ dict.label }}</el-radio>
+                     </el-radio-group>
+                  </el-form-item>
+               </el-col>
+               <el-col :span="12" v-if="settingType == 'App'">
+                  <el-form-item>
+                     <template #label>
+                        <span>
+                           <el-tooltip content="选择隐藏则路由将不会出现在App工作台，并不可以访问" placement="top">
+                              <el-icon><question-filled /></el-icon>
+                           </el-tooltip>
+                           显示状态
+                        </span>
+                     </template>
+                     <el-radio-group v-model="form.appVisible">
                         <el-radio
                            v-for="dict in sys_show_hide"
                            :key="dict.value"
@@ -263,6 +329,7 @@
                      </el-radio-group>
                   </el-form-item>
                </el-col>
+               
             </el-row>
          </el-form>
          <template #footer>
@@ -292,6 +359,8 @@ const menuOptions = ref([]);
 const isExpandAll = ref(false);
 const refreshTable = ref(true);
 const iconSelectRef = ref(null);
+const settingType = ref('Pc');  // 这个是配置手机端还是pc
+
 
 const data = reactive({
   form: {},
@@ -302,7 +371,8 @@ const data = reactive({
   rules: {
     menuName: [{ required: true, message: "菜单名称不能为空", trigger: "blur" }],
     orderNum: [{ required: true, message: "菜单顺序不能为空", trigger: "blur" }],
-    path: [{ required: true, message: "路由地址不能为空", trigger: "blur" }]
+    path: [{ required: true, message: "路由地址不能为空", trigger: "blur" }],
+    appPath: [{ required: true, message: "app组件地址不能为空", trigger: "blur" }]
   },
 });
 
@@ -337,11 +407,13 @@ function reset() {
     parentId: 0,
     menuName: undefined,
     icon: undefined,
+    appIcon: undefined,
     menuType: "M",
     orderNum: undefined,
     isFrame: "1",
     isCache: "0",
     visible: "0",
+    appVisible: "0",
     status: "0"
   };
   proxy.resetForm("menuRef");
@@ -353,6 +425,10 @@ function showSelectIcon() {
 /** 选择图标 */
 function selected(name) {
   form.value.icon = name;
+}
+/** app选择图标 */
+function selectedApp(name) {
+  form.value.appIcon = name;
 }
 /** 搜索按钮操作 */
 function handleQuery() {
