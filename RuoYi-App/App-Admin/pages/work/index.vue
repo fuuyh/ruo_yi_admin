@@ -15,9 +15,9 @@
 			<template v-if="item.children != null && item.children.length != 0">
 				<uni-section :title="item.meta.title" type="line" :key="index"></uni-section>
 				<view class="grid-body">
-					<uni-grid :column="4" :showBorder="false" @change="changeGrid">
+					<uni-grid :column="4" :showBorder="false">
 						<uni-grid-item v-for="(e,i) in item.children" :key="i">
-							<view class="grid-item-box">
+							<view class="grid-item-box" @click="toPath(e)">
 								<uni-icons type="wallet-filled" size="30"></uni-icons>
 								<text class="text">{{ e.meta.title }}</text>
 							</view>
@@ -62,7 +62,9 @@
 			changeSwiper(e) {
 				this.current = e.detail.current
 			},
-			changeGrid(e) {
+			toPath(e) {
+				// 路由跳转
+				console.log(e)
 				this.$modal.showToast('模块建设中~')
 			},
 			async getMenu() {
