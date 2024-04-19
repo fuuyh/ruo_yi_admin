@@ -134,7 +134,30 @@
 		<include refid="selectMenuVo"/>
 		where menu_name=#{menuName} and parent_id = #{parentId} limit 1
 	</select>
-	
+	<select id="selectAppMenuTreeAll" resultType="com.ruoyi.common.core.domain.entity.SysMenu">
+		SELECT DISTINCT
+			m.menu_id,
+			m.parent_id,
+			m.menu_name,
+			m.app_path,
+			m.app_visible,
+			m.STATUS,
+			ifnull( m.perms, '' ) AS perms,
+			m.is_frame,
+			m.is_cache,
+			m.app_icon,
+			m.order_num
+		FROM
+			sys_menu m
+		WHERE
+			m.menu_type IN ( 'M', 'C' )
+		  AND m.STATUS = 0
+		ORDER BY
+			m.parent_id,
+			m.order_num
+	</select>
+	<select id="selectAppMenuTreeByUserId" resultType="com.ruoyi.common.core.domain.entity.SysMenu"></select>
+
 	<update id="updateMenu" parameterType="SysMenu">
 		update sys_menu
 		<set>

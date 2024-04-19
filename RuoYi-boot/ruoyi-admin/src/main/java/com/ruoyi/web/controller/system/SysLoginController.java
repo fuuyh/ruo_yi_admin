@@ -83,4 +83,12 @@ public class SysLoginController
         List<SysMenu> menus = menuService.selectMenuTreeByUserId(userId);
         return AjaxResult.success(menuService.buildMenus(menus));
     }
+
+    @GetMapping("getAppRouters")
+    public AjaxResult getAppRouters()
+    {
+        Long userId = SecurityUtils.getUserId();
+        List<SysMenu> menus = menuService.selectMenuTreeByUserId(userId);
+        return AjaxResult.success(menus);
+    }
 }

@@ -12,14 +12,14 @@
 		</uni-swiper-dot>
 
 		<template v-for="(item,index) in menuList">
-			<template v-if="item.children != null && item.children.length != 0">
-				<uni-section :title="item.meta.title" type="line" :key="index"></uni-section>
+			<template v-if="item.children != null && item.children.length != 0 && item.appVisible == '0'">
+				<uni-section :title="item.menuName" type="line" :key="index"></uni-section>
 				<view class="grid-body">
 					<uni-grid :column="4" :showBorder="false">
 						<uni-grid-item v-for="(e,i) in item.children" :key="i">
 							<view class="grid-item-box" @click="toPath(e)">
-								<uni-icons type="wallet-filled" size="30"></uni-icons>
-								<text class="text">{{ e.meta.title }}</text>
+								<uni-icons custom-prefix="iconfont" :type="`icon-${e.appIcon}`" size="20"></uni-icons>
+								<text class="text">{{ e.menuName }}</text>
 							</view>
 						</uni-grid-item>
 					</uni-grid>
@@ -84,6 +84,7 @@
 </script>
 
 <style lang="scss">
+	@import '../../static/icon/icon.css';
 	/* #ifndef APP-NVUE */
 	page {
 		display: flex;
