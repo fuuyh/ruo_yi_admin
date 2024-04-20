@@ -1,6 +1,8 @@
 package com.ruoyi.music.service;
 
 import java.util.List;
+
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.ruoyi.music.domain.MusicInfo;
 
 /**
@@ -9,7 +11,7 @@ import com.ruoyi.music.domain.MusicInfo;
  * @author ruoyi
  * @date 2024-03-29
  */
-public interface IMusicInfoService 
+public interface IMusicInfoService extends IService<MusicInfo>
 {
     /**
      * 查询歌曲信息

@@ -1,6 +1,8 @@
 package com.ruoyi.music.mapper;
 
 import java.util.List;
+
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.ruoyi.music.domain.MusicInfo;
 
 /**
@@ -9,7 +11,7 @@ import com.ruoyi.music.domain.MusicInfo;
  * @author ruoyi
  * @date 2024-03-29
  */
-public interface MusicInfoMapper 
+public interface MusicInfoMapper extends BaseMapper<MusicInfo>
 {
     /**
      * 查询歌曲信息

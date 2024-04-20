@@ -1,6 +1,8 @@
 package com.ruoyi.music.service.impl;
 
 import java.util.List;
+
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.music.mapper.MusicInfoMapper;
@@ -14,7 +16,7 @@ import com.ruoyi.music.service.IMusicInfoService;
  * @date 2024-03-29
  */
 @Service
-public class MusicInfoServiceImpl implements IMusicInfoService 
+public class MusicInfoServiceImpl extends ServiceImpl<MusicInfoMapper,MusicInfo> implements IMusicInfoService
 {
     @Autowired
     private MusicInfoMapper musicInfoMapper;
