@@ -18,12 +18,14 @@
   }, {
     "path": "pages/work/index",
     "style": {
-      "navigationBarTitleText": "工作台"
+      "navigationBarTitleText": "工作台",
+	  "navigationStyle": "custom"
     }
   }, {
     "path": "pages/mine/index",
     "style": {
-      "navigationBarTitleText": "我的"
+      "navigationBarTitleText": "我的",
+	  "navigationStyle": "custom"
     }
   }, {
     "path": "pages/mine/avatar/index",
